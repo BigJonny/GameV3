@@ -23,6 +23,7 @@ namespace GameProject_V3.Controls
         private TextAlignment alignment;
         private Panel itemControl;
         private bool showItems;
+        private Rectangle downButtonScreenBounds;
 
         private static object textChangedKey = new object();
         private static object itemAddedKey = new object();
@@ -94,29 +95,24 @@ namespace GameProject_V3.Controls
             base.OnSizeChanged(sender, args);
             drawArea = new Bitmap(Width, Height);
             textDrawArea = new Bitmap(Width - downButtonWidth, Height);
+            downButtonScreenBounds = new Rectangle(GetScreenLocation(), new Size(downButtonWidth, Height));
+            downButtonScreenBounds.Y += Height;
         }
 
         protected override void OnParrentChanged(object sender, EventArgs args)
         {
             base.OnParrentChanged(sender, args);
-            if (GUIManager.CurrentScreen != null)
-            {
-                itemControl = new Panel();
-                itemControl.Location = new Point(GetScreenLocation().X, GetScreenLocation().Y + Height);
-                itemControl.Width = Width;
-                itemControl.Height = 300;
-                GUIManager.CurrentScreen.AfterPaint += new DrawEventHandler(DrawPanel);
-            }
+            downButtonScreenBounds = new Rectangle(GetScreenLocation(), new Size(downButtonWidth, Height));
+            downButtonScreenBounds.Y += Height;
+            itemControl.Location = downButtonScreenBounds.Location;
         }
 
         protected override void OnClick(object sender, MouseEventArgs args)
         {
             base.OnClick(sender, args);
-            Rectangle downButtonScreenBounds = new Rectangle(GetScreenLocation(), new Size(downButtonWidth, Height));
-            downButtonScreenBounds.X += Width - downButtonWidth;
             if (IsPointInside(args.CurrentState.Position, downButtonScreenBounds));
             {
-                showItems = true;
+                showItems = !showItems;
             }
         }
         #endregion
@@ -128,11 +124,6 @@ namespace GameProject_V3.Controls
         private void DrawPanel(object sender, DrawEventArgs args)  
         {
             Console.WriteLine("Draw ITemControl");
-            if (showItems == true)
-            {
-                itemControl.Draw(args.GraphicsDevice, args.Time);
-                Console.WriteLine("Draw ITemControl");
-            }
         }
 
         #endregion

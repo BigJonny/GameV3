@@ -11,7 +11,7 @@ namespace GameProject_V3.Controls
     {
 
         //TODO: Größe des Screens darf nich verändert werden!
-        
+
         /// <summary>
         /// Erstellt einen leeren standart Screen.
         /// </summary>

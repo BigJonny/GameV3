@@ -38,7 +38,6 @@ namespace GameProject_V3.Main.Screens
             optionsButton.Location = new Point(500, 270);
             optionsButton.BackgroundImage = buttonBackground;
             optionsButton.Font.FontColor = Color.White;
-            this.AddControl(optionsButton);
 
             leaveButton = new Button();
             leaveButton.Text = "Beenden";
@@ -46,12 +45,13 @@ namespace GameProject_V3.Main.Screens
             leaveButton.BackgroundImage = buttonBackground;
             leaveButton.Font.FontColor = Color.White;
             leaveButton.Click += new MouseEventHandler(OnLeaveButtonClick);
-            this.AddControl(leaveButton);
 
             comboBox = new ComboBox();
-            comboBox.Location = new Point(500, 410);
+            comboBox.Location = new Point(500, 130);
             comboBox.Text = "Text";
+            this.AddControl(optionsButton);
             this.AddControl(comboBox);
+            this.AddControl(leaveButton);
         }
 
         /// <summary>
