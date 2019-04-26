@@ -24,6 +24,7 @@ namespace GameProject_V3
         private int charCount;
         private Bitmap source;
         private Color color;
+        private float scale;
 
         private Regex nameRegex;
         private Regex charCountRegex;
@@ -36,6 +37,7 @@ namespace GameProject_V3
         public BitmapFont(string path)
         {
             this.path = path;
+            scale = 1.0f;
             nameRegex = new Regex("^name = {1,}[a-zA-Z]");
             charCountRegex = new Regex("^chars count={1,}[0-9]");
             Parse();
@@ -217,13 +219,13 @@ namespace GameProject_V3
                 Point result = new Point(0, 0);
                 if(text.Length > 0 && GetCharFromIndex(text[0]) != null)
                 {
-                    result.Y = GetCharFromIndex(text[0]).Height;
+                    result.Y = (int)(GetCharFromIndex(text[0]).Height * scale);
                 }
                 foreach(char c in text)
                 {
                     if(GetCharFromIndex(c) != null)
                     {
-                        result.X += GetCharFromIndex(c).Width;
+                        result.X += (int)(GetCharFromIndex(c).Width * scale);
                     }
                 }
                 return result;
@@ -242,8 +244,8 @@ namespace GameProject_V3
             Bitmap charImage = GetCharFromIndex(c);
             if(charImage != null)
             {
-                result.X = charImage.Width;
-                result.Y = charImage.Height;
+                result.X = (int)(charImage.Width * scale);
+                result.Y = (int)(charImage.Height + scale);
             }
             return result;
         }
@@ -278,8 +280,8 @@ namespace GameProject_V3
             foreach(char c in message)
             {
                 Bitmap charImage = GetCharFromIndex(c);
-                graphics.DrawImage(charImage, position);
-                position.X += charImage.Width;
+                graphics.DrawImage(charImage, new RectangleF(position.X, position.Y, charImage.Width * scale, charImage.Height * scale));
+                position.X += (int)(charImage.Width * scale);
             }
         }
 
@@ -375,6 +377,21 @@ namespace GameProject_V3
             get
             {
                 return chars;
+            }
+        }
+
+        /// <summary>
+        /// Skaliert den Schriftzug beim Zeichenen entsprechenend dieses Faktors.
+        /// </summary>
+        public float Scale
+        {
+            get
+            {
+                return scale;
+            }
+            set
+            {
+                scale = value;
             }
         }
         #endregion

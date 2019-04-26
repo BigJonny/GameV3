@@ -97,6 +97,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Content\Fonts\Bloody\font.fnt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Fonts\Calibri\font.fnt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -120,6 +123,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Fonts\Bloody\source.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Fonts\Calibri\source.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

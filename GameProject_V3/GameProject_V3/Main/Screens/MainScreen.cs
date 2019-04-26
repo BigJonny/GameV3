@@ -14,11 +14,9 @@ namespace GameProject_V3.Main.Screens
         private Button startButton;
         private Button optionsButton;
         private Button leaveButton;
-
-        private ComboBox comboBox;
+        private Label title;
 
         private Bitmap buttonBackground;
-        Panel p;
 
         /// <summary>
         /// Erstellt einen neuen MainScreen.
@@ -46,22 +44,16 @@ namespace GameProject_V3.Main.Screens
             leaveButton.BackgroundImage = buttonBackground;
             leaveButton.Font.FontColor = Color.White;
             leaveButton.Click += new MouseEventHandler(OnLeaveButtonClick);
-
-            comboBox = new ComboBox();
-            comboBox.Location = new Point(0, 0);
-            comboBox.AddItem("Item1");
-            comboBox.AddItem("Item2");
-            comboBox.AddItem("Item3");
-            comboBox.AddItem("Item4");
-            comboBox.AddItem("Item5");
             this.AddControl(optionsButton);
             this.AddControl(leaveButton);
 
-            p = new Panel();
-            p.Location = new Point(10, 10);
-            p.Size = new Point(300, 300);
-            this.AddControl(p);
-            p.AddControl(comboBox);
+            title = new Label();
+            title.Location = new Point(50, 50);
+            title.Font = BitmapFontManager.GetFontFromName("Bloody");
+            title.Font.FontColor = Color.DarkRed;
+            title.Font.Scale = 3.0f;
+            title.Text = "Knight of War";
+            this.AddControl(title);
         }
 
         /// <summary>

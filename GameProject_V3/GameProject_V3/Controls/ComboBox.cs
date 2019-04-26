@@ -38,6 +38,7 @@ namespace GameProject_V3.Controls
             text = "";
             selectedIndex = -1;
             itemControl.BackColor = Color.White;
+            itemControl.Scoll += new MouseEventHandler(OnMouseScroll);
             itemControl.Visible = false;
             showItems = false;
             drawArea = new Bitmap(size.X, size.Y);
@@ -240,6 +241,27 @@ namespace GameProject_V3.Controls
                     {
                         l.Location = new Point(l.Location.X, l.Location.Y - 1);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tritt ein, wenn der Nutzer mit dem Mausrad die ScrollBar bewegen möchte.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnMouseScroll(object sender, MouseEventArgs args)
+        {
+            //TODO: Scrollen funktioniert nicht mit dem Mausrad.
+            if(itemControl.GetScrollBarFromType(ScrollType.Vertical) != null)
+            {
+                if (itemControl.GetScrollBarFromType(ScrollType.Vertical).LastDirection == ScrollDirection.Down)
+                {
+                    itemControl.GetScrollBarFromType(ScrollType.Vertical).Value = -1;
+                }
+                else
+                {
+                    itemControl.GetScrollBarFromType(ScrollType.Vertical).Value = +1;
                 }
             }
         }

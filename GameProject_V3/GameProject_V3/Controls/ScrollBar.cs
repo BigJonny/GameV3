@@ -20,6 +20,8 @@ namespace GameProject_V3.Controls
         Up = 0, Down = 1, None = 2,
     }
 
+    //TODO: Scrollbar geht über die Pfeile. Auf Pfeile kann nicht geklickt werden um den Sroll-Wert zu verändern.
+
     /// <summary>
     /// Ein Steuerlement welches einen Bildschrimverlauf ermöglicht.
     /// </summary>
@@ -158,6 +160,7 @@ namespace GameProject_V3.Controls
 
             g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
             graphics.DrawImage(drawArea, Bounds);
+            g.Dispose();
         }
 
         /// <summary>
@@ -193,6 +196,7 @@ namespace GameProject_V3.Controls
 
             g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
             graphics.DrawImage(drawArea, Bounds);
+            g.Dispose();
         }
 
         /// <summary>
@@ -396,6 +400,23 @@ namespace GameProject_V3.Controls
             {
                 return value;
             }
+            set
+            {
+                this.value = value;
+                if(value < 0)
+                {
+                    this.value = 0;
+                }
+                else if(value > maximum)
+                {
+                    this.value = maximum;
+                }
+                else
+                {
+                    ValueChange();
+                    OnvalueChanged(this, EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -440,17 +461,6 @@ namespace GameProject_V3.Controls
             set
             {
                 type = value;
-            }
-        }
-
-        /// <summary>
-        /// Gibt an, ob sich die ScrollBar bewegen kann.
-        /// </summary>
-        internal bool CanMove
-        {
-            get
-            {
-                return canMove;
             }
         }
 

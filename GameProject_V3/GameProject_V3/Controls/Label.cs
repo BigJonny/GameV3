@@ -77,6 +77,7 @@ namespace GameProject_V3.Controls
                 graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
             }
             Font?.DrawString(text, graphics, new Point(0, 0));
+            graphics.Dispose();
         }
         #endregion
 

@@ -54,6 +54,7 @@ namespace GameProject_V3.Controls
                 }
             }
             graphics.DrawImage(drawArea, Bounds);
+            g.Dispose();
         }
 
         protected override void UpdateControl(GameTime gameTime)

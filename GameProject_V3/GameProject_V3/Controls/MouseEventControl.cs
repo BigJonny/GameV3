@@ -24,6 +24,7 @@ namespace GameProject_V3.Controls
         private static object mouseButtonDownKey = new object();
         private static object mouseButtonUpKey = new object();
         private static object mouseDoubleClickKey = new object();
+        private static object scrollKey = new object();
 
         /// <summary>
         /// Erstellt ein neues MouseEventControl.
@@ -45,6 +46,10 @@ namespace GameProject_V3.Controls
                 if(state.Position == oldState.Position)
                 {
                     OnMouseHover(this, new MouseEventArgs(state, oldState));
+                }
+                if(state.Scroll != oldState.Scroll)
+                {
+                    OnScroll(this, new MouseEventArgs(state, oldState));
                 }
                 else
                 {
@@ -183,6 +188,19 @@ namespace GameProject_V3.Controls
             handler = (MouseEventHandler)Events[mouseButtonUpKey];
             handler?.Invoke(sender, args);
         }
+
+        /// <summary>
+        /// Tritt ein, wenn der Nutzer mit der Maus über dem sichtbaren Bereich des Steuerelements
+        /// ist und das Scrollrad der Maus bewegt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnScroll(object sender, MouseEventArgs args)
+        {
+            MouseEventHandler handler;
+            handler = (MouseEventHandler)Events[scrollKey];
+            handler?.Invoke(sender, args);
+        }
         #endregion
 
         #region Eigenschaften:
@@ -306,6 +324,22 @@ namespace GameProject_V3.Controls
             remove
             {
                 Events.RemoveHandler(mouseButtonUpKey, value);
+            }
+        }
+
+        /// <summary>
+        /// Ein Ereignise, welches eintritt, wenn der Nutzer mit der Maus über dem sichtbaren
+        /// Bereich des Steuerelemetns ist und das Mausrad bewegt.
+        /// </summary>
+        public event MouseEventHandler Scoll
+        {
+            add
+            {
+                Events.AddHandler(scrollKey, value);
+            }
+            remove
+            {
+                Events.RemoveHandler(scrollKey, value);
             }
         }
         #endregion
