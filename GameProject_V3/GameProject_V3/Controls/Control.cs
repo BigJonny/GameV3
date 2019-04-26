@@ -236,7 +236,7 @@ namespace GameProject_V3.Controls
         protected virtual void OnAfterPaint(object sender, DrawEventArgs args)
         {
             DrawEventHandler handler;
-            handler = (DrawEventHandler)Events[beforPaintKey];
+            handler = (DrawEventHandler)Events[afterPaintKey];
             handler?.Invoke(sender, args);
         }
 

@@ -34,5 +34,6 @@ namespace GameProject_V3.Controls
             Width = GUIManager.CurrentGame.Resulution.X;
             Height = GUIManager.CurrentGame.Resulution.Y;
         }
+
     }
 }

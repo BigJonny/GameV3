@@ -14,6 +14,9 @@ namespace GameProject_V3.Main.Screens
         private Button startButton;
         private Button optionsButton;
         private Button leaveButton;
+
+        private ComboBox comboBox;
+
         private Bitmap buttonBackground;
 
         /// <summary>
@@ -44,6 +47,11 @@ namespace GameProject_V3.Main.Screens
             leaveButton.Font.FontColor = Color.White;
             leaveButton.Click += new MouseEventHandler(OnLeaveButtonClick);
             this.AddControl(leaveButton);
+
+            comboBox = new ComboBox();
+            comboBox.Location = new Point(500, 410);
+            comboBox.Text = "Text";
+            this.AddControl(comboBox);
         }
 
         /// <summary>

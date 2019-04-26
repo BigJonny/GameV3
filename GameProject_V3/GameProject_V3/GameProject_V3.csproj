@@ -50,6 +50,7 @@
     <Compile Include="BitmapFontManager.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\ComboBox.cs" />
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\DrawEventArgs.cs" />

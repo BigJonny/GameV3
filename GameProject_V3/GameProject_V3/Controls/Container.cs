@@ -16,7 +16,7 @@ namespace GameProject_V3.Controls
     {
 
         private List<GameControl> controls;
-        private Bitmap drawArea;
+        protected Bitmap drawArea;
         private ContainerScroll scrollType;
         private ScrollBar[] scrollBars;
 
