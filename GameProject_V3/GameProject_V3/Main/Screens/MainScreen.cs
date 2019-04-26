@@ -18,6 +18,7 @@ namespace GameProject_V3.Main.Screens
         private ComboBox comboBox;
 
         private Bitmap buttonBackground;
+        Panel p;
 
         /// <summary>
         /// Erstellt einen neuen MainScreen.
@@ -47,11 +48,17 @@ namespace GameProject_V3.Main.Screens
             leaveButton.Click += new MouseEventHandler(OnLeaveButtonClick);
 
             comboBox = new ComboBox();
-            comboBox.Location = new Point(500, 130);
-            comboBox.Text = "Text";
+            comboBox.Location = new Point(0, 0);
+            comboBox.AddItem("Item1");
+            comboBox.AddItem("Item2");
             this.AddControl(optionsButton);
-            this.AddControl(comboBox);
             this.AddControl(leaveButton);
+
+            p = new Panel();
+            p.Location = new Point(10, 10);
+            p.Size = new Point(300, 300);
+            this.AddControl(p);
+            p.AddControl(comboBox);
         }
 
         /// <summary>

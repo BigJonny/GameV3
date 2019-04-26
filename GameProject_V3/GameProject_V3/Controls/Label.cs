@@ -28,8 +28,8 @@ namespace GameProject_V3.Controls
         public Label() : base()
         {
             text = "";
-            Width = 100;
-            Height = 50;
+            size = new Point(100, 50);
+            drawArea = new Bitmap(Width, Height);
             growWidthText = true;
             drawBorder = false;
             drawBackgroundColor = false;

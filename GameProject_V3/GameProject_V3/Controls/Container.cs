@@ -27,8 +27,7 @@ namespace GameProject_V3.Controls
         {
             controls = new List<GameControl>();
             scrollBars = new ScrollBar[2];
-            Width = 200;
-            Height = 200;
+            size = new Point(200, 200);
         }
 
         #region Overrides:
@@ -36,6 +35,7 @@ namespace GameProject_V3.Controls
         {
             base.DrawControl(graphics, gameTime);
             Graphics g = Graphics.FromImage(drawArea);
+            g.Clear(BackColor);
             if(BackgroundImage != null)
             {
                 g.DrawImage(BackgroundImage, new Rectangle(0, 0, Width, Height));
@@ -44,7 +44,9 @@ namespace GameProject_V3.Controls
             {
                 control.Draw(g, gameTime);
             }
-            for(int i = 0; i < 2; i++)
+            if (DrawBorder)
+                g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
+            for (int i = 0; i < 2; i++)
             {
                 if(scrollBars[i] != null)
                 {
@@ -57,16 +59,23 @@ namespace GameProject_V3.Controls
         protected override void UpdateControl(GameTime gameTime)
         {
             base.UpdateControl(gameTime);
-            foreach(GameControl control in controls)
+            try
             {
-                control.Update(gameTime);
-            }
-            for(int i = 0; i < 2; i++)
-            {
-                if(scrollBars[i] != null)
+                foreach (GameControl control in controls)
                 {
-                    scrollBars[i].Update(gameTime);
+                    control.Update(gameTime);
                 }
+                for (int i = 0; i < 2; i++)
+                {
+                    if (scrollBars[i] != null)
+                    {
+                        scrollBars[i].Update(gameTime);
+                    }
+                }
+            }
+            catch
+            {
+                return;
             }
         }
 
@@ -76,7 +85,22 @@ namespace GameProject_V3.Controls
             drawArea = new Bitmap(Width, Height);
             Graphics graphics = Graphics.FromImage(drawArea);
             graphics.Clear(BackColor);
-            graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
+            if(DrawBorder)
+            {
+                graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
+            }
+        }
+
+        protected override void OnBackColorChanged(object sender, EventArgs args)
+        {
+            base.OnBackColorChanged(sender, args);
+            drawArea = new Bitmap(Width, Height);
+            Graphics graphics = Graphics.FromImage(drawArea);
+            graphics.Clear(BackColor);
+            if (DrawBorder)
+            {
+                graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
+            }
         }
         #endregion
 
@@ -202,6 +226,28 @@ namespace GameProject_V3.Controls
             if(hasfound)
             {
                 RemoveControlAt(index);
+            }
+        }
+
+        /// <summary>
+        /// Zeigt das Steuerlelement über allen anderen in diesem Container.
+        /// </summary>
+        /// <param name="c"></param>
+        public void BringToFront(GameControl c)
+        {
+            bool hasFound = false;
+            foreach(GameControl control in controls)
+            {
+                if(c.Equals(control) == true)
+                {
+                    hasFound = true;
+                    break;
+                }
+            }
+            if(hasFound)
+            {
+                RemoveControl(c);
+                AddControl(c);
             }
         }
         #endregion

@@ -32,6 +32,7 @@ namespace GameProject_V3.Controls
             text = "";
             alignment = TextAlignment.Center;
             InitImages();
+            drawArea = new Bitmap(size.X, size.Y);
         }
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace GameProject_V3.Controls
             this.text = text;
             alignment = TextAlignment.Center;
             InitImages();
+            drawArea = new Bitmap(size.X, size.Y);
         }
 
         /// <summary>

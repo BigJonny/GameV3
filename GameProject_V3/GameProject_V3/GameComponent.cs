@@ -14,8 +14,8 @@ namespace GameProject_V3
     public abstract class GameComponent
     {
 
-        private Point location;
-        private Point size;
+        protected Point location;
+        protected Point size;
         protected EventHandlerList Events;
 
         private static object locationChangedKey = new object();

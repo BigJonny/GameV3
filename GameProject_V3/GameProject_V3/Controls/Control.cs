@@ -31,6 +31,8 @@ namespace GameProject_V3.Controls
         private bool hasFocus;
         private Container parrent;
 
+        private bool drawBorder;
+
         private static object parrentChangedKey = new object();
         private static object visibleChangedKey = new object();
         private static object backColorChangedKey = new object();
@@ -45,13 +47,14 @@ namespace GameProject_V3.Controls
         /// </summary>
         public Control()
         {
-            Size = new Point(200, 50);
+            size = new Point(200, 50);
             backColor = Color.White;
             visible = true;
             eneabled = true;
             backgroundImage = null;
             canFocus = false;
             hasFocus = false;
+            drawBorder = true;
         }
 
         #region Drawing:
@@ -332,6 +335,21 @@ namespace GameProject_V3.Controls
             get
             {
                 return new Rectangle(Location.X, Location.Y, Size.X, Size.Y);
+            }
+        }
+
+        /// <summary>
+        /// Gibt an, ob um das Steuerelement ein schwarzes Rechteck gezeichnet werden soll.
+        /// </summary>
+        public bool DrawBorder
+        {
+            get
+            {
+                return drawBorder;
+            }
+            set
+            {
+                drawBorder = value;
             }
         }
 

@@ -14,36 +14,36 @@ namespace GameProject_V3.Controls
     public class ComboBox : GameControl
     {
 
-        private List<string> items;
-        private string text;
         private Bitmap drawArea;
         private Bitmap textDrawArea;
-        private int downButtonWidth;
-        private int selectedIndex;
-        private TextAlignment alignment;
         private Panel itemControl;
         private bool showItems;
-        private Rectangle downButtonScreenBounds;
+
+        private List<Label> items;
+        private string text;
+        private int selectedIndex;
 
         private static object textChangedKey = new object();
         private static object itemAddedKey = new object();
         private static object itemRemoveKey = new object();
-        
+        private static object selectedIndexChangedKey = new object();
 
         /// <summary>
         /// Erstellt eine neue leere ComboBox.
         /// </summary>
         public ComboBox()
         {
-            items = new List<string>();
+            items = new List<Label>();
+            itemControl = new Panel();
             text = "";
+            selectedIndex = -1;
+            itemControl.BackColor = Color.White;
+            itemControl.Visible = false;
+            showItems = false;
+            drawArea = new Bitmap(size.X, size.Y);
             Width = 200;
             Height = 50;
-            downButtonWidth = 20;
-            selectedIndex = -1;
-            alignment = TextAlignment.Center;
-            itemControl = new Panel();
-            showItems = false;
+            textDrawArea = new Bitmap(Width, Height);
         }
 
         #region Overrides:
@@ -51,42 +51,40 @@ namespace GameProject_V3.Controls
         {
             base.DrawControl(graphics, gameTime);
             Graphics g = Graphics.FromImage(drawArea);
-
             g.FillRectangle(new SolidBrush(BackColor), new Rectangle(0, 0, Width, Height));
-            g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
 
-            Point[] down = new Point[3];
-            down[0] = new Point(Width - downButtonWidth + (downButtonWidth / 2), Height);
-            down[1] = new Point(Width - downButtonWidth, 0);
-            down[2] = new Point(Width, 0);
+            Point[] downButton = new Point[3];
+            downButton[0] = new Point(Width - 25, 0);
+            downButton[1] = new Point(Width, 0);
+            downButton[2] = new Point(Width - (25 / 2), Height);
 
-            g.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Width - downButtonWidth, 0, downButtonWidth, Height));
-            g.FillPolygon(new SolidBrush(Color.Black), down);
-            g.DrawRectangle(Pens.Black, new Rectangle(Width - downButtonWidth, 0, downButtonWidth, Height));
+            g.FillRectangle(new SolidBrush(Color.Gray), new RectangleF(Width - 25, 0, 25, Height));
+            g.FillPolygon(new SolidBrush(Color.Black), downButton);
+            g.DrawRectangle(Pens.Black, new Rectangle(Width - 25, 0, 24, Height - 1));
 
-            Font.DrawString(text, Graphics.FromImage(textDrawArea), 
-                new Rectangle(0, 0, textDrawArea.Width, textDrawArea.Height), alignment);
-            g.DrawImage(textDrawArea, new Rectangle(0, 0, textDrawArea.Width, textDrawArea.Height));
+            Graphics textG = Graphics.FromImage(textDrawArea);
+            textG.Clear(Color.Transparent);
+            Font.DrawString(text, textG, new Rectangle(0, 0, Width - 25, Height), TextAlignment.Center);
+            g.DrawImage(textDrawArea, new Rectangle(0, 0, Width - 25, Height));
 
+            if(DrawBorder)
+            {
+                g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
+            }
             graphics.DrawImage(drawArea, Bounds);
-            g.Dispose();
         }
-
 
         protected override void UpdateControl(GameTime gameTime)
         {
             base.UpdateControl(gameTime);
-            MouseState state = MouseInput.GetState();
-            if(IsPointInside(state.Position) == false)
+            if (showItems == true)
             {
-                if(state.LeftButton == ButtonStates.Pressed || state.RightButton == ButtonStates.Pressed)
-                {
-                    showItems = false;
-                }
+                itemControl.Visible = true;
+                itemControl.Eneabled = true;
             }
-            if(showItems == true)
-            {
-                itemControl.Update(gameTime);
+            else {
+                itemControl.Visible = false;
+                itemControl.Eneabled = false;
             }
         }
 
@@ -94,110 +92,181 @@ namespace GameProject_V3.Controls
         {
             base.OnSizeChanged(sender, args);
             drawArea = new Bitmap(Width, Height);
-            textDrawArea = new Bitmap(Width - downButtonWidth, Height);
-            downButtonScreenBounds = new Rectangle(GetScreenLocation(), new Size(downButtonWidth, Height));
-            downButtonScreenBounds.Y += Height;
-        }
-
-        protected override void OnParrentChanged(object sender, EventArgs args)
-        {
-            base.OnParrentChanged(sender, args);
-            downButtonScreenBounds = new Rectangle(GetScreenLocation(), new Size(downButtonWidth, Height));
-            downButtonScreenBounds.Y += Height;
-            itemControl.Location = downButtonScreenBounds.Location;
+            textDrawArea = new Bitmap(Width - 25, Height);
+            showItems = false;
+            itemControl.Location = new Point(Location.X, Location.Y + Height);
+            GenerateItemControl();
         }
 
         protected override void OnClick(object sender, MouseEventArgs args)
         {
             base.OnClick(sender, args);
-            if (IsPointInside(args.CurrentState.Position, downButtonScreenBounds));
+            showItems = !showItems;
+        }
+
+        protected override void OnParrentChanged(object sender, EventArgs args)
+        {
+            base.OnParrentChanged(sender, args);
+            if(Parrent != null)
             {
-                showItems = !showItems;
+                Parrent.AddControl(itemControl);
+                showItems = false;
+                itemControl.Location = new Point(Location.X, Location.Y + Height);
+                GenerateItemControl();
             }
         }
-        #endregion
 
-        #region Hilfsfunktionen:
-        /// <summary>
-        /// Zeichnet das Panel auf dem die Steuerlemente angezeigt werden sollen.
-        /// </summary>
-        private void DrawPanel(object sender, DrawEventArgs args)  
+        protected override void OnLocationChanged(object sender, EventArgs args)
         {
-            Console.WriteLine("Draw ITemControl");
+            base.OnLocationChanged(sender, args);
+            showItems = false;
+            itemControl.Location = new Point(Location.X, Location.Y + Height);
+            GenerateItemControl();
         }
-
         #endregion
 
-        #region Item-Managment:
+        #region ItemManagment:
         /// <summary>
-        /// Fügt der ComboBox ein neues Item hinzu.
+        /// Fügt dieser ComboBox ein neues Item hinzu.
         /// </summary>
         /// <param name="item"></param>
         public void AddItem(string item)
         {
             if(item != null)
             {
-                items.Add(item);
+                Label l = new Label();
+                l.Text = item;
+                l.DrawBackgroundColor = true;
+                l.GrowWidthText = false;
+                l.Width = itemControl.Width;
+                l.MouseEnter += new MouseEventHandler(EnterItem);
+                l.MouseLeave += new MouseEventHandler(LeaveItem);
+                l.Click += new MouseEventHandler(ItemClick);
+                items.Add(l);
+                GenerateItemControl();
                 OnItemAdded(this, EventArgs.Empty);
             }
         }
 
         /// <summary>
-        /// Löscht das Item an der Stelle index, falls möglich.
+        /// Löscht ein Item an der gegebenen Stelle falls möglich.
         /// </summary>
         /// <param name="index"></param>
-        public void RemoveItemAdd(int index)
+        public void RemoveItemAt(int index)
         {
-            if (items.Count > index && index >= 0)
+            if (items.Count < index && index >= 0)
             {
                 items.RemoveAt(index);
-                OnItemRemoved(this, EventArgs.Empty);
+                GenerateItemControl();
+                OnItemRemove(this, EventArgs.Empty);
             }
             else
-                throw new IndexOutOfRangeException("Der Index lag ausserhalb des gültigen" +
-                    "Breichs: (Index: " + index + ", Items.Count: " + items.Count + ")");
+                throw new IndexOutOfRangeException("Der angegebenene Index lag auserhalb " +
+                    "des gültigen Bereichs");
         }
 
         /// <summary>
-        /// Löscht das Item an der gegebenen Stelle.
+        /// Löscht das erste auftauchen eines Items mit dem gegebenen Text.
         /// </summary>
         /// <param name="item"></param>
-        public void RomveItem(string item)
+        public void RemoveItem(string item)
         {
             int index = 0;
             bool hasfound = false;
-            foreach(string s in items)
+            foreach(Label l in items)
             {
-                if(s == item)
+                if(l.Text == item)
                 {
                     hasfound = true;
                     break;
                 }
                 index++;
             }
-            if(hasfound == true)
+            if (hasfound == true)
             {
-                RemoveItemAdd(index);
+                RemoveItemAt(index);
             }
         }
 
         /// <summary>
-        /// Fügt dem Steuerelement eine Reihe von Items hinzu.
+        /// Generitert die Anzeige der Items neu.
         /// </summary>
-        /// <param name="range"></param>
-        public void AddItems(List<string> range)
+        private void GenerateItemControl()
         {
-            if(range != null)
+            itemControl.ClearControls();
+            Point pos = new Point(0, 0);
+            foreach(Label l in items)
             {
-                foreach (string item in range)
+                itemControl.AddControl(l);
+                l.Location = pos;
+                pos.Y += l.Height;
+            }
+            if(items.Count > 4)
+            {
+
+            }else
+            {
+                itemControl.Height = pos.Y;
+            }
+        }
+        #endregion
+
+        #region Item-Events:
+        /// <summary>
+        /// Tritt ein, wenn der Nutzer mit der Maus de nsichtbaren Bereich eines Items betritt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void EnterItem(object sender, EventArgs args)
+        {
+            (sender as Label).BackColor = Color.Gray;
+        }
+
+        /// <summary>
+        /// Tritt ein, wenn der Nutzer mit Maus den sichtbaren Bereich eines Items verlässt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void LeaveItem(object sender, EventArgs args)
+        {
+            (sender as Label).BackColor = BackColor;
+        }
+
+        /// <summary>
+        /// Tritt ein, wenn der Nutzer mit de Maus auf ein Item klickt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ItemClick(object sender, EventArgs args)
+        {
+            Text = (sender as Label).Text;
+            showItems = false;
+            int index = 0;
+            foreach(Label l in items)
+            {
+                if(l.Equals(sender as Label))
                 {
-                    AddItem(item);
+                    selectedIndex = index;
+                    OnSelectedIndexChanged(this, EventArgs.Empty);
+                    break;
                 }
             }
         }
         #endregion
 
         #region Events:
+        /// <summary>
+        /// Tritt ein, wenn sich der Text des Steuerelements verändert hat.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnTextChanged(object sender, EventArgs args)
+        {
+            EventHandler handler;
+            handler = (EventHandler)Events[textChangedKey];
+            handler?.Invoke(sender, args);
+        }
+
         /// <summary>
         /// Tritt ein, wenn ein neues Item hinzugefügt wurde.
         /// </summary>
@@ -215,7 +284,7 @@ namespace GameProject_V3.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected virtual void OnItemRemoved(object sender, EventArgs args)
+        protected virtual void OnItemRemove(object sender, EventArgs args)
         {
             EventHandler handler;
             handler = (EventHandler)Events[itemRemoveKey];
@@ -223,21 +292,21 @@ namespace GameProject_V3.Controls
         }
 
         /// <summary>
-        /// Ein Ereignis, welches eintritt, wenn sich der Text des Steuerlements geändert hat.
+        /// Tritt ein, wenn der Nuzter ein neues Item ausgeählt hat.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        protected virtual void OnTextChanged(object sender, EventArgs args)
+        protected virtual void OnSelectedIndexChanged(object sender, EventArgs args)
         {
             EventHandler handler;
-            handler = (EventHandler)Events[textChangedKey];
+            handler = (EventHandler)Events[itemRemoveKey];
             handler?.Invoke(sender, args);
         }
         #endregion
 
         #region Eigenschaften:
         /// <summary>
-        /// Gibt den von diesesm Steuerlement repäsentierten Text zurück oder überschreibt diesen.
+        /// Gibt den von diesem Steuerelement angezeigten Text zurück oder überschreibt diesen.
         /// </summary>
         public string Text
         {
@@ -253,23 +322,18 @@ namespace GameProject_V3.Controls
         }
 
         /// <summary>
-        /// Gibt die Ausrichtung der <see cref="Text"/>-Eigenschaft zurück oder
-        /// überschreibt diese.
+        /// Gibt den aktuell Index des aktuelle selektierten Elements zurück.
         /// </summary>
-        public TextAlignment Alignment
+        public int SelectedIndex
         {
             get
             {
-                return alignment;
-            }
-            set
-            {
-                alignment = value;
+                return selectedIndex;
             }
         }
 
         /// <summary>
-        /// Ein Ereignis, welches eintritt, wenn ein neues Item hinzugefügt wurde.
+        /// Ein Ereignis, welches einrtitt, wenn ein neues Item hinzugefügt wird.
         /// </summary>
         public event EventHandler ItemAdded
         {
@@ -286,7 +350,7 @@ namespace GameProject_V3.Controls
         /// <summary>
         /// Ein Ereignis, welches eintritt, wenn ein Item gelöscht wurde.
         /// </summary>
-        public event EventHandler ItemRemove
+        public event EventHandler ItemRemoved
         {
             add
             {
@@ -312,6 +376,23 @@ namespace GameProject_V3.Controls
                 Events.RemoveHandler(textChangedKey, value);
             }
         }
+
+        /// <summary>
+        /// Ein Ereignis, welches eintritt, wenn sich der Index
+        /// des aktuelle selektierten Items geändert hat.
+        /// </summary>
+        public event EventHandler SelectedIndexChanged
+        {
+            add
+            {
+                Events.AddHandler(selectedIndexChangedKey, value);
+            }
+            remove
+            {
+                Events.RemoveHandler(selectedIndexChangedKey, value);
+            }
+        }
         #endregion
+
     }
 }
