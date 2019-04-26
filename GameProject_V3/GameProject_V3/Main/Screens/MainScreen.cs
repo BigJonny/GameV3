@@ -51,6 +51,9 @@ namespace GameProject_V3.Main.Screens
             comboBox.Location = new Point(0, 0);
             comboBox.AddItem("Item1");
             comboBox.AddItem("Item2");
+            comboBox.AddItem("Item3");
+            comboBox.AddItem("Item4");
+            comboBox.AddItem("Item5");
             this.AddControl(optionsButton);
             this.AddControl(leaveButton);
 

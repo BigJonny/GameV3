@@ -203,10 +203,44 @@ namespace GameProject_V3.Controls
             }
             if(items.Count > 4)
             {
-
+                itemControl.ScrollType = ContainerScroll.Vertical;
+                itemControl.Height = Font.MeasureString("a").Y * 4;
+                foreach(Label l in items)
+                {
+                    l.Width = itemControl.Width - itemControl.GetScrollBarFromType(ScrollType.Vertical).Width;
+                }
+                itemControl.GetScrollBarFromType(ScrollType.Vertical).Maximum = pos.Y - itemControl.Height;
+                itemControl.GetScrollBarFromType(ScrollType.Vertical).ValueChanged += new EventHandler(OnScrollValueChanged);
             }else
             {
                 itemControl.Height = pos.Y;
+                itemControl.ScrollType = ContainerScroll.None;
+            }
+        }
+
+        /// <summary>
+        /// Tritt ein, wenn der Nutzer den Bildverlauf der Itemansicht verändert hat.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnScrollValueChanged(object sender, EventArgs args)
+        {
+            if(itemControl.GetScrollBarFromType(ScrollType.Vertical) != null)
+            {
+                if(itemControl.GetScrollBarFromType(ScrollType.Vertical).LastDirection == ScrollDirection.Down)
+                {
+                    foreach(Label l in items)
+                    {
+                        l.Location = new Point(l.Location.X, l.Location.Y + 1);
+                    }
+                }
+                else
+                {
+                    foreach (Label l in items)
+                    {
+                        l.Location = new Point(l.Location.X, l.Location.Y - 1);
+                    }
+                }
             }
         }
         #endregion

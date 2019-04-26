@@ -252,6 +252,25 @@ namespace GameProject_V3.Controls
         }
         #endregion
 
+        #region Hilfsfunktionen:
+        /// <summary>
+        /// Gibt die SrollBar des Containers zum entsprechenden <see cref="ScrollType"/> zurück.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public ScrollBar GetScrollBarFromType (ScrollType type)
+        {
+            if(type == Controls.ScrollType.Vertical)
+            {
+                return scrollBars[0];
+            }
+            else
+            {
+                return scrollBars[1];
+            }
+        }
+        #endregion
+
         #region Eigenschaften:
         /// <summary>
         /// Gibt die aktuelle Art des Bildschirmverlaufes dieses Containers zurück oder überschreibt diese.
