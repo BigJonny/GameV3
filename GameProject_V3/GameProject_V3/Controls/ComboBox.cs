@@ -53,6 +53,10 @@ namespace GameProject_V3.Controls
             base.DrawControl(graphics, gameTime);
             Graphics g = Graphics.FromImage(drawArea);
             g.FillRectangle(new SolidBrush(BackColor), new Rectangle(0, 0, Width, Height));
+            if(BackgroundImage != null)
+            {
+                g.DrawImage(BackgroundImage, new Rectangle(0, 0, Width, Height));
+            }
 
             Point[] downButton = new Point[3];
             downButton[0] = new Point(Width - 25, 0);
@@ -103,6 +107,13 @@ namespace GameProject_V3.Controls
         {
             base.OnClick(sender, args);
             showItems = !showItems;
+            if(showItems == true)
+            {
+                if(Parrent != null)
+                {
+                    Parrent.BringToFront(itemControl);
+                }
+            }
         }
 
         protected override void OnParrentChanged(object sender, EventArgs args)
@@ -122,7 +133,6 @@ namespace GameProject_V3.Controls
             base.OnLocationChanged(sender, args);
             showItems = false;
             itemControl.Location = new Point(Location.X, Location.Y + Height);
-            GenerateItemControl();
         }
         #endregion
 

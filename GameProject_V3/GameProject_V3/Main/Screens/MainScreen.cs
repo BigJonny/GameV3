@@ -37,6 +37,7 @@ namespace GameProject_V3.Main.Screens
             optionsButton.Location = new Point(500, 270);
             optionsButton.BackgroundImage = buttonBackground;
             optionsButton.Font.FontColor = Color.White;
+            optionsButton.Click += new MouseEventHandler(OptionsButtonClick);
 
             leaveButton = new Button();
             leaveButton.Text = "Beenden";
@@ -54,6 +55,16 @@ namespace GameProject_V3.Main.Screens
             title.Font.Scale = 3.0f;
             title.Text = "Knight of War";
             this.AddControl(title);
+        }
+
+        /// <summary>
+        /// Tritt ein, wenn der Nutze die Optionen sehen möchte.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OptionsButtonClick(object sender, MouseEventArgs args)
+        {
+            GameStateManager.ChangeState(GameState.OptionsMenu);
         }
 
         /// <summary>

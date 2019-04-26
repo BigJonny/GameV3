@@ -27,7 +27,8 @@ namespace GameProject_V3.Controls
         {
             controls = new List<GameControl>();
             scrollBars = new ScrollBar[2];
-            size = new Point(200, 200);
+            Width = 200;
+            Height = 200;
         }
 
         #region Overrides:

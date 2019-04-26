@@ -50,6 +50,7 @@
     <Compile Include="BitmapFontManager.cs" />
     <Compile Include="ContentLoader.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\CheckBox.cs" />
     <Compile Include="Controls\ComboBox.cs" />
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\Control.cs" />
@@ -80,7 +81,9 @@
     <Compile Include="ImageHelper.cs" />
     <Compile Include="KeyBoardInput.cs" />
     <Compile Include="KeyboardState.cs" />
+    <Compile Include="Main\GameStateManager.cs" />
     <Compile Include="Main\Screens\MainScreen.cs" />
+    <Compile Include="Main\Screens\OptionsScreen.cs" />
     <Compile Include="MouseInput.cs" />
     <Compile Include="MouseState.cs" />
     <Compile Include="Program.cs" />
@@ -135,10 +138,19 @@
     <Content Include="Content\Fonts\TimesNewRoman\source.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\GameContent\backgroundTex.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\GameContent\CheckedImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\GameContent\MainScreenBackgroundImage.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\GameContent\buttonBackgroundImage.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\GameContent\NotCheckedImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -52,7 +52,7 @@ namespace GameProject_V3
         /// <param name="pos"></param>
         public static void SetPosition(Point pos, Bitmap drawArea)
         {
-            state.Position = new Point(pos.X - screenpos.X, pos.Y - screenpos.Y);
+            state.Position = new Point(pos.X, pos.Y);
             state.Position = ImageHelper.TranslateMousePos(state.Position, drawArea, parrentSize);
         }
 

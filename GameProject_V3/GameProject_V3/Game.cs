@@ -38,6 +38,7 @@ namespace GameProject_V3
             resultion = new Point(800, 600);
             graphics = Graphics.FromImage(drawArea);
             GUIManager.Initialize(this);
+            ContentLoader.Initialize();
         }
 
         /// <summary>
@@ -173,6 +174,25 @@ namespace GameProject_V3
             resultion = p;
             drawArea = new Bitmap(resultion.X, resultion.Y);
             graphics = Graphics.FromImage(drawArea);
+        }
+
+        /// <summary>
+        /// Erzing das Spiel in den Fullscreen-Modus oder aus diesem heraus.
+        /// </summary>
+        /// <param name="eneable"></param>
+        public void SetFullScreen(bool eneable)
+        {
+            if(eneable)
+            {
+                form.TopMost = true;
+                form.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                form.TopMost = true;
+                form.WindowState = FormWindowState.Normal;
+                screen.Focus();
+            }
         }
 
         /// <summary>
