@@ -55,14 +55,17 @@
     <Compile Include="Controls\Container.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\DrawEventArgs.cs" />
+    <Compile Include="Controls\FlowLayoutPanel.cs" />
     <Compile Include="Controls\GameControl.cs" />
     <Compile Include="Controls\KeyEventArgs.cs" />
     <Compile Include="Controls\KeyEventControl.cs" />
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\MouseEventArgs.cs" />
     <Compile Include="Controls\MouseEventControl.cs" />
+    <Compile Include="Controls\Padding.cs" />
     <Compile Include="Controls\Panel.cs" />
     <Compile Include="Controls\PictureBox.cs" />
+    <Compile Include="Controls\RelativeLayoutPanel.cs" />
     <Compile Include="Controls\Screen.cs" />
     <Compile Include="Controls\ScrollBar.cs" />
     <Compile Include="Controls\TextAlignment.cs" />

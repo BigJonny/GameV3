@@ -13,7 +13,7 @@ namespace GameProject_V3.Controls
     /// </summary>
     public class ComboBox : GameControl
     {
-
+        #region Variablen:
         private Bitmap drawArea;
         private Bitmap textDrawArea;
         private Panel itemControl;
@@ -27,6 +27,7 @@ namespace GameProject_V3.Controls
         private static object itemAddedKey = new object();
         private static object itemRemoveKey = new object();
         private static object selectedIndexChangedKey = new object();
+        #endregion
 
         /// <summary>
         /// Erstellt eine neue leere ComboBox.

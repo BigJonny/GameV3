@@ -32,6 +32,7 @@ namespace GameProject_V3.Controls
         private Container parrent;
 
         private bool drawBorder;
+        private Padding padding;
 
         private static object parrentChangedKey = new object();
         private static object visibleChangedKey = new object();
@@ -55,6 +56,7 @@ namespace GameProject_V3.Controls
             canFocus = false;
             hasFocus = false;
             drawBorder = true;
+            padding = new Padding();
         }
 
         #region Drawing:
@@ -413,6 +415,24 @@ namespace GameProject_V3.Controls
             get
             {
                 return parrent;
+            }
+        }
+
+        /// <summary>
+        /// Gibt das Padding dieses Steuerelement zurück oder überschreibt dieses.
+        /// </summary>
+        public Padding Padding
+        {
+            get
+            {
+                return padding;
+            }
+            set
+            {
+                if(value != null)
+                {
+                    padding = value;
+                }
             }
         }
 

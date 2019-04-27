@@ -15,10 +15,13 @@ namespace GameProject_V3.Controls
     public abstract class Container : GameControl
     {
 
-        private List<GameControl> controls;
+        protected List<GameControl> controls;
         protected Bitmap drawArea;
         private ContainerScroll scrollType;
         private ScrollBar[] scrollBars;
+
+        private static object controlAddedKey = new object();
+        private static object controlRemovedKey = new object();
 
         /// <summary>
         /// Erstellt einen neuen Container.
@@ -151,6 +154,7 @@ namespace GameProject_V3.Controls
         {
             controls.Add(control);
             control.SetParrent(this);
+            OnControlAdded(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -191,6 +195,7 @@ namespace GameProject_V3.Controls
             foreach(GameControl control in controls)
             {
                 control.SetParrent(null);
+                OnControlRemoved(this, EventArgs.Empty);
             }
             controls.Clear();
         }
@@ -205,6 +210,7 @@ namespace GameProject_V3.Controls
             {
                 controls[index].SetParrent(null);
                 controls.RemoveAt(index);
+                OnControlRemoved(this, EventArgs.Empty);
             }
         }
 
@@ -254,6 +260,32 @@ namespace GameProject_V3.Controls
         }
         #endregion
 
+        #region Events:
+        /// <summary>
+        /// Tritt ein, wenn diesem Container ein neues Steuerelement hunzugefügt wird.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnControlAdded(object sender, EventArgs args)
+        {
+            EventHandler handler;
+            handler = (EventHandler)Events[controlAddedKey];
+            handler?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// Tritt ein, wenn ein Steuerelement aus diesem Container entfernt wird.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        protected virtual void OnControlRemoved(object sender, EventArgs args)
+        {
+            EventHandler handler;
+            handler = (EventHandler)Events[controlRemovedKey];
+            handler?.Invoke(sender, args);
+        }
+        #endregion
+
         #region Hilfsfunktionen:
         /// <summary>
         /// Gibt die SrollBar des Containers zum entsprechenden <see cref="ScrollType"/> zurück.
@@ -287,6 +319,36 @@ namespace GameProject_V3.Controls
             {
                 scrollType = value;
                 GenerateContainerScroll(scrollType);
+            }
+        }
+
+        /// <summary>
+        /// Ein Ereignis, welches eintritt, wenn ein Steuerelement diesem Container hinzugefügt wird.
+        /// </summary>
+        public event EventHandler ControlAdded
+        {
+            add
+            {
+                Events.AddHandler(controlAddedKey, value);
+            }
+            remove
+            {
+                Events.RemoveHandler(controlRemovedKey, value);
+            }
+        }
+
+        /// <summary>
+        /// Ein Ereignis, welches eintritt, wenn ein Steuerelement von diesem Container entfernt wurde.
+        /// </summary>
+        public event EventHandler ConrtolRemoved
+        {
+            add
+            {
+                Events.AddHandler(controlRemovedKey, value);
+            }
+            remove
+            {
+                Events.RemoveHandler(controlRemovedKey, value);
             }
         }
         #endregion
