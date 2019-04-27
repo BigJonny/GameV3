@@ -14,9 +14,6 @@ namespace GameProject_V3.Controls
     {
         #region Varaiblen:
         private string text;
-        private bool drawBorder;
-        private Bitmap drawArea;
-        private bool drawBackgroundColor;
         private bool growWidthText;
 
         private static object textChangedKey = new object();
@@ -28,25 +25,19 @@ namespace GameProject_V3.Controls
         public Label() : base()
         {
             text = "";
-            size = new Point(100, 50);
-            drawArea = new Bitmap(Width, Height);
+            Width = 100;
+            Height = 50;
             growWidthText = true;
-            drawBorder = false;
-            drawBackgroundColor = false;
+            BackColor = Color.Transparent;
+            DrawBorder = false;
         }
 
         #region Overrides:
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            ReDraw();
-            graphics.DrawImage(drawArea, Bounds);
-        }
-
-        protected override void OnSizeChanged(object sender, EventArgs args)
-        {
-            base.OnSizeChanged(sender, args);
-            ReDraw();
+            Font.DrawString(Text, this.graphics, new Point(0, 0));
+            graphics.DrawImage(DrawArea, Bounds);
         }
         #endregion
 
@@ -59,25 +50,6 @@ namespace GameProject_V3.Controls
             Point textSize = Font.MeasureString(text);
             Width = textSize.X;
             Height = textSize.Y;
-        }
-
-        /// <summary>
-        /// Zeichnet das Steuerelement neu.
-        /// </summary>
-        private void ReDraw()
-        {
-            drawArea = new Bitmap(Width, Height);
-            Graphics graphics = Graphics.FromImage(drawArea);
-            if (drawBackgroundColor == true)
-            {
-                graphics.Clear(BackColor);
-            }
-            if (drawBorder == true)
-            {
-                graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
-            }
-            Font?.DrawString(text, graphics, new Point(0, 0));
-            graphics.Dispose();
         }
         #endregion
 
@@ -97,38 +69,6 @@ namespace GameProject_V3.Controls
 
         #region Eigenschaften:
         /// <summary>
-        /// Gibt an, ob um das Label eine schwarzes Rechteck gezeichnet werden soll.
-        /// </summary>
-        public bool DrawBorder
-        {
-            get
-            {
-                return drawBorder;
-            }
-            set
-            {
-                drawBorder = value;
-                ReDraw();
-            }
-        }
-
-        /// <summary>
-        /// Gibt an, ob die Hintergrundfarbe des Steuerlements eenfalls gezeichnet werden soll.
-        /// </summary>
-        public bool DrawBackgroundColor
-        {
-            get
-            {
-                return drawBackgroundColor;
-            }
-            set
-            {
-                drawBackgroundColor = value;
-                ReDraw();
-            }
-        }
-
-        /// <summary>
         /// Gibt an, ob die Größe des Labels mit der <see cref="Text"/>-Eigenschaft verändert werden kann.
         /// </summary>
         public bool GrowWidthText
@@ -140,7 +80,7 @@ namespace GameProject_V3.Controls
             set
             {
                 growWidthText = value;
-                ReDraw();
+                TextSizeChanged();
             }
         }
 

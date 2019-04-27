@@ -25,7 +25,7 @@ namespace GameProject_V3.Controls
     /// <summary>
     /// Ein Steuerlement welches einen Bildschrimverlauf ermöglicht.
     /// </summary>
-    public class ScrollBar : KeyEventControl
+    public class ScrollBar : GameControl
     {
 
         //TODO: ScrollButtons implementieren und Scrollbar demenspechend anpassen.
@@ -40,8 +40,6 @@ namespace GameProject_V3.Controls
         private Rectangle screenBarBounds = new Rectangle();
         private int scrollBarLength = 0;
         private ScrollDirection lastDir = ScrollDirection.None;
-
-        private Bitmap drawArea;
 
         private MouseState oldState;
         private MouseState state;
@@ -133,10 +131,6 @@ namespace GameProject_V3.Controls
         /// <param name="spriteBatch"></param>
         private void DrawVertical(Graphics graphics)
         {
-            drawArea = new Bitmap(Width, Height);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
-
             Point[] up = new Point[3];
             up[0] = new Point(Width / 2, 0);
             up[1] = new Point(0, 20);
@@ -147,20 +141,19 @@ namespace GameProject_V3.Controls
             down[1] = new Point(Width, Height - 20);
             down[2] = new Point(0, Height - 20);
 
-            g.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(0, 0, Width, 20));
-            g.FillPolygon(new SolidBrush(Color.Black), up);
-            g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, 20));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(0, 0, Width, 20));
+            this.graphics.FillPolygon(new SolidBrush(Color.Black), up);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, 20));
 
-            g.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(0, Height - 20, Width, 20));
-            g.FillPolygon(new SolidBrush(Color.Black), down);
-            g.DrawRectangle(Pens.Black, new Rectangle(0, Height - 20, Width, 20));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(0, Height - 20, Width, 20));
+            this.graphics.FillPolygon(new SolidBrush(Color.Black), down);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, Height - 20, Width, 20));
 
-            g.FillRectangle(new SolidBrush(Color.Gray), barBounds);
-            g.DrawRectangle(Pens.Black, new Rectangle(barBounds.X, barBounds.Y, barBounds.Width - 1, barBounds.Height - 1));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), barBounds);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(barBounds.X, barBounds.Y, barBounds.Width - 1, barBounds.Height - 1));
 
-            g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
-            graphics.DrawImage(drawArea, Bounds);
-            g.Dispose();
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
         /// <summary>
@@ -169,10 +162,6 @@ namespace GameProject_V3.Controls
         /// <param name="spriteBatch"></param>
         private void DrawHorizontal(Graphics graphics)
         {
-            drawArea = new Bitmap(Width, Height);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
-
             Point[] left = new Point[3];
             left[0] = new Point(0, Height / 2);
             left[1] = new Point(20, Height);
@@ -183,20 +172,19 @@ namespace GameProject_V3.Controls
             right[1] = new Point(Width - 20, Height);
             right[2] = new Point(Width - 20, 0);
 
-            g.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(0, 0, 20, Height));
-            g.FillPolygon(new SolidBrush(Color.Black), left);
-            g.DrawRectangle(Pens.Black, new Rectangle(0, 0, 20, Height - 1));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(0, 0, 20, Height));
+            this.graphics.FillPolygon(new SolidBrush(Color.Black), left);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, 0, 20, Height - 1));
 
-            g.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Width - 20, 0, 20, Height));
-            g.FillPolygon(new SolidBrush(Color.Black), right);
-            g.DrawRectangle(Pens.Black, new Rectangle(Width - 20, 0, 20, Height));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Width - 20, 0, 20, Height));
+            this.graphics.FillPolygon(new SolidBrush(Color.Black), right);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(Width - 20, 0, 20, Height));
 
-            g.FillRectangle(new SolidBrush(Color.Gray), barBounds);
-            g.DrawRectangle(Pens.Black, new Rectangle(barBounds.X, barBounds.Y, barBounds.Width - 1, barBounds.Height - 1));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), barBounds);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(barBounds.X, barBounds.Y, barBounds.Width - 1, barBounds.Height - 1));
 
-            g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
-            graphics.DrawImage(drawArea, Bounds);
-            g.Dispose();
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
         /// <summary>

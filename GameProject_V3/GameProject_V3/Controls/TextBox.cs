@@ -16,7 +16,6 @@ namespace GameProject_V3.Controls
 
         #region Varaiblen:
         private string text;
-        private Bitmap drawArea;
         private MouseState state;
         private bool canWrite = true;
         private bool isWriting = false;
@@ -46,24 +45,16 @@ namespace GameProject_V3.Controls
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
-            Font.DrawString(text, g, new Rectangle(0 - offsetX, 0, Width, Height), TextAlignment.Left);
+            Font.DrawString(text, this.graphics, new Rectangle(0 - offsetX, 0, Width, Height), TextAlignment.Left);
             if(HasFocus)
             {
                 if (gameTime.Milliseconds % 100 <= 50)
                 {
                     Point textSize = Font.MeasureString(text.Substring(0, textIndex));
-                    g.DrawImage(textIndexImage, new Point(textSize.X - offsetX, 0));
+                    this.graphics.DrawImage(textIndexImage, new Point(textSize.X - offsetX, 0));
                 }
             }
-
-            graphics.DrawImage(drawArea, Bounds);
-            if(BackgroundImage != null)
-            {
-                graphics.DrawImage(BackgroundImage, Bounds);
-            }
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
         protected override void UpdateControl(GameTime gameTime)
@@ -100,7 +91,6 @@ namespace GameProject_V3.Controls
         protected override void OnSizeChanged(object sender, EventArgs args)
         {
             base.OnSizeChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
             InitImages();
         }
 

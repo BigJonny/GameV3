@@ -64,6 +64,7 @@ namespace GameProject_V3.Controls
         {
             if(visible == true)
             {
+
                 OnBeforPaint(this, new DrawEventArgs(graphics, gameTime));
                 DrawControl(graphics, gameTime);
                 OnAfterPaint(this, new DrawEventArgs(graphics, gameTime));

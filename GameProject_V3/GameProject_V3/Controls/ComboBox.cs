@@ -14,7 +14,6 @@ namespace GameProject_V3.Controls
     public class ComboBox : GameControl
     {
         #region Variablen:
-        private Bitmap drawArea;
         private Bitmap textDrawArea;
         private Panel itemControl;
         private bool showItems;
@@ -42,7 +41,6 @@ namespace GameProject_V3.Controls
             itemControl.Scoll += new MouseEventHandler(OnMouseScroll);
             itemControl.Visible = false;
             showItems = false;
-            drawArea = new Bitmap(size.X, size.Y);
             Width = 200;
             Height = 50;
             textDrawArea = new Bitmap(Width, Height);
@@ -52,32 +50,22 @@ namespace GameProject_V3.Controls
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.FillRectangle(new SolidBrush(BackColor), new Rectangle(0, 0, Width, Height));
-            if(BackgroundImage != null)
-            {
-                g.DrawImage(BackgroundImage, new Rectangle(0, 0, Width, Height));
-            }
 
             Point[] downButton = new Point[3];
             downButton[0] = new Point(Width - 25, 0);
             downButton[1] = new Point(Width, 0);
             downButton[2] = new Point(Width - (25 / 2), Height);
 
-            g.FillRectangle(new SolidBrush(Color.Gray), new RectangleF(Width - 25, 0, 25, Height));
-            g.FillPolygon(new SolidBrush(Color.Black), downButton);
-            g.DrawRectangle(Pens.Black, new Rectangle(Width - 25, 0, 24, Height - 1));
+            this.graphics.FillRectangle(new SolidBrush(Color.Gray), new RectangleF(Width - 25, 0, 25, Height));
+            this.graphics.FillPolygon(new SolidBrush(Color.Black), downButton);
+            this.graphics.DrawRectangle(Pens.Black, new Rectangle(Width - 25, 0, 24, Height - 1));
 
             Graphics textG = Graphics.FromImage(textDrawArea);
             textG.Clear(Color.Transparent);
             Font.DrawString(text, textG, new Rectangle(0, 0, Width - 25, Height), TextAlignment.Center);
-            g.DrawImage(textDrawArea, new Rectangle(0, 0, Width - 25, Height));
-
-            if(DrawBorder)
-            {
-                g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
-            }
-            graphics.DrawImage(drawArea, Bounds);
+            this.graphics.DrawImage(textDrawArea, new Rectangle(0, 0, Width - 25, Height));
+            textG.Dispose();
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
         protected override void UpdateControl(GameTime gameTime)
@@ -97,7 +85,6 @@ namespace GameProject_V3.Controls
         protected override void OnSizeChanged(object sender, EventArgs args)
         {
             base.OnSizeChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
             textDrawArea = new Bitmap(Width - 25, Height);
             showItems = false;
             itemControl.Location = new Point(Location.X, Location.Y + Height);
@@ -148,7 +135,6 @@ namespace GameProject_V3.Controls
             {
                 Label l = new Label();
                 l.Text = item;
-                l.DrawBackgroundColor = true;
                 l.GrowWidthText = false;
                 l.Width = itemControl.Width;
                 l.MouseEnter += new MouseEventHandler(EnterItem);

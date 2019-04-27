@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,19 +24,13 @@ namespace GameProject_V3.Controls
         {
             oldWidth = width;
             oldHeight = height;
-            size = new System.Drawing.Point(width, height);
+            size = new Point(width, height);
         }
 
         #region Overrides:
         protected override void OnSizeChanged(object sender, EventArgs args)
         {
             base.OnSizeChanged(sender, args);
-            ReOrderConrols();
-        }
-
-        protected override void OnLocationChanged(object sender, EventArgs args)
-        {
-            base.OnLocationChanged(sender, args);
             ReOrderConrols();
         }
         #endregion
@@ -45,9 +40,19 @@ namespace GameProject_V3.Controls
         /// </summary>
         private void ReOrderConrols()
         {
-            foreach(GameControl control in controls)
+            if (oldHeight != Width || oldHeight != Height)
             {
-
+                foreach (GameControl control in controls)
+                {
+                    Point p = new Point(0, 0);
+                    p.X = control.Location.X / oldHeight;
+                    p.Y = control.Location.Y / oldHeight;
+                    p.X = p.X * Width;
+                    p.Y = p.Y * Height;
+                    control.Location = p;
+                    oldWidth = Width;
+                    oldHeight = Height;
+                }
             }
         }
 

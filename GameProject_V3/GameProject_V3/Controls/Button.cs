@@ -15,7 +15,6 @@ namespace GameProject_V3.Controls
 
         #region Variablen:
         private string text;
-        private Bitmap drawArea;
         private Bitmap mouseOverImage;
         private Bitmap mousePressImage;
 
@@ -32,7 +31,6 @@ namespace GameProject_V3.Controls
             text = "";
             alignment = TextAlignment.Center;
             InitImages();
-            drawArea = new Bitmap(size.X, size.Y);
         }
 
         /// <summary>
@@ -44,7 +42,6 @@ namespace GameProject_V3.Controls
             this.text = text;
             alignment = TextAlignment.Center;
             InitImages();
-            drawArea = new Bitmap(size.X, size.Y);
         }
 
         /// <summary>
@@ -64,6 +61,11 @@ namespace GameProject_V3.Controls
         /// </summary>
         private void InitImages()
         {
+            if (mouseOverImage != null)
+                mouseOverImage.Dispose();
+            if (mousePressImage != null)
+                mousePressImage.Dispose();
+
             mouseOverImage = new Bitmap(Width, Height);
             Graphics g = Graphics.FromImage(mouseOverImage);
             g.Clear(Color.FromArgb(200, Color.Gray));
@@ -73,6 +75,8 @@ namespace GameProject_V3.Controls
             Graphics g2 = Graphics.FromImage(mousePressImage);
             g2.Clear(Color.Gray);
             g2.DrawRectangle(new Pen(new SolidBrush(Color.Yellow)), new Rectangle(0, 0, Width - 1, Height - 1));
+            g.Dispose();
+            g2.Dispose();
         }
         #endregion
 
@@ -80,26 +84,19 @@ namespace GameProject_V3.Controls
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
-            g.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
-            if (BackgroundImage != null)
-            {
-                g.DrawImage(BackgroundImage, new Rectangle(0, 0, Width, Height));
-            }
             if(mouseOver)
             {
                 if(mousePress)
                 {
-                    g.DrawImage(mousePressImage, new Rectangle(0, 0, Width, Height));
+                    this.graphics.DrawImage(mousePressImage, new Rectangle(0, 0, Width, Height));
                 }
                 else
                 {
-                    g.DrawImage(mouseOverImage, new Rectangle(0, 0, Width, Height));
+                    this.graphics.DrawImage(mouseOverImage, new Rectangle(0, 0, Width, Height));
                 }
             }
-            Font.DrawString(text, g, new Rectangle(0, 0, Width, Height), Alignment);
-            graphics.DrawImage(drawArea, Bounds);
+            Font.DrawString(text, this.graphics, new Rectangle(0, 0, Width, Height), Alignment);
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
         protected override void UpdateControl(GameTime gameTime)
@@ -122,7 +119,6 @@ namespace GameProject_V3.Controls
         protected override void OnSizeChanged(object sender, EventArgs args)
         {
             base.OnSizeChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
             InitImages();
         }
 

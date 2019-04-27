@@ -16,7 +16,6 @@ namespace GameProject_V3.Controls
     {
 
         protected List<GameControl> controls;
-        protected Bitmap drawArea;
         private ContainerScroll scrollType;
         private ScrollBar[] scrollBars;
 
@@ -30,35 +29,25 @@ namespace GameProject_V3.Controls
         {
             controls = new List<GameControl>();
             scrollBars = new ScrollBar[2];
-            Width = 200;
-            Height = 200;
+            size = new Point(200, 200);
         }
 
         #region Overrides:
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
-            if(BackgroundImage != null)
-            {
-                g.DrawImage(BackgroundImage, new Rectangle(0, 0, Width, Height));
-            }
             foreach(GameControl control in controls)
             {
-                control.Draw(g, gameTime);
+                control.Draw(this.graphics, gameTime);
             }
-            if (DrawBorder)
-                g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
-            for (int i = 0; i < 2; i++)
+            for(int i = 0; i < 2; i++)
             {
                 if(scrollBars[i] != null)
                 {
-                    scrollBars[i].Draw(g, gameTime);
+                    scrollBars[i].Draw(this.graphics, gameTime);
                 }
             }
-            graphics.DrawImage(drawArea, Bounds);
-            g.Dispose();
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
         protected override void UpdateControl(GameTime gameTime)
@@ -81,30 +70,6 @@ namespace GameProject_V3.Controls
             catch
             {
                 return;
-            }
-        }
-
-        protected override void OnSizeChanged(object sender, EventArgs args)
-        {
-            base.OnSizeChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
-            Graphics graphics = Graphics.FromImage(drawArea);
-            graphics.Clear(BackColor);
-            if(DrawBorder)
-            {
-                graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
-            }
-        }
-
-        protected override void OnBackColorChanged(object sender, EventArgs args)
-        {
-            base.OnBackColorChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
-            Graphics graphics = Graphics.FromImage(drawArea);
-            graphics.Clear(BackColor);
-            if (DrawBorder)
-            {
-                graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
             }
         }
         #endregion

@@ -12,7 +12,6 @@ namespace GameProject_V3.Controls
         private bool checkState;
         private string text;
 
-        private Bitmap drawArea;
         private Bitmap checkedImage;
         private Bitmap notCheckedImage;
 
@@ -29,7 +28,6 @@ namespace GameProject_V3.Controls
             DrawBorder = false;
             Width = 200;
             Height = 50;
-            drawArea = new Bitmap(Width, Height);
             checkedImage = ContentLoader.LoadImage("CheckedImage.png");
             notCheckedImage = ContentLoader.LoadImage("NotCheckedImage.png");
         }
@@ -37,39 +35,29 @@ namespace GameProject_V3.Controls
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
-            g.FillRectangle(new SolidBrush(BackColor), new Rectangle(0, 0, Width, Height));
 
-            g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Height, Height));
             if(checkState == true)
             {
-                g.DrawImage(checkedImage, new Rectangle(0, 0, Height, Height));
+                this.graphics.DrawImage(checkedImage, new Rectangle(0, 0, Height, Height));
             }
             else
             {
-                g.DrawImage(notCheckedImage, new Rectangle(0, 0, Height, Height));
+                this.graphics.DrawImage(notCheckedImage, new Rectangle(0, 0, Height, Height));
             }
 
             if(DrawBorder == true)
             {
-                g.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
+                this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
             }
             Font.DrawString(text, g, new Rectangle(Height + 10, 0,
                 Width - (Height + 10), Height), TextAlignment.Left);
-            graphics.DrawImage(drawArea, Bounds);
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
 
         protected override void UpdateControl(GameTime gameTime)
         {
             base.UpdateControl(gameTime);
-        }
-
-        protected override void OnSizeChanged(object sender, EventArgs args)
-        {
-            base.OnSizeChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
         }
 
         protected override void OnClick(object sender, MouseEventArgs args)
