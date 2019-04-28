@@ -23,7 +23,6 @@ namespace GameProject_V3.Controls
         #region Varaiblen:
         private Bitmap image;
         private SizeModes sizemode;
-        private Bitmap drawArea;
         private bool drawBorder;
 
         private static object imageChagendKey = new object();
@@ -39,35 +38,29 @@ namespace GameProject_V3.Controls
             Width = 100;
             Height = 100;
         }
+
         #region Overrides:
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
             base.DrawControl(graphics, gameTime);
-            Graphics g = Graphics.FromImage(drawArea);
-            g.Clear(BackColor);
             if(image != null)
             {
                 if(sizemode == SizeModes.Normal || sizemode == SizeModes.AutoSize)
                 {
-                    g.DrawImage(image, new Point(0, 0));
+                    this.graphics.DrawImage(image, new Point(0, 0));
                 }
                 else
                 {
-                    g.DrawImage(image, new Rectangle(0, 0, Width, Height));
+                    this.graphics.DrawImage(image, new Rectangle(0, 0, Width, Height));
                 }
             }
             if(drawBorder)
             {
-                g.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
+                this.graphics.DrawRectangle(new Pen(new SolidBrush(Color.Black)), new Rectangle(0, 0, Width - 1, Height - 1));
             }
-            graphics.DrawImage(drawArea, Bounds);
+            graphics.DrawImage(DrawArea, Bounds);
         }
 
-        protected override void OnSizeChanged(object sender, EventArgs args)
-        {
-            base.OnSizeChanged(sender, args);
-            drawArea = new Bitmap(Width, Height);
-        }
         #endregion
 
         #region Evetns:

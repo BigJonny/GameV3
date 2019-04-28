@@ -13,7 +13,7 @@ namespace GameProject_V3.Main
     /// </summary>
     public enum GameState
     {
-        MainMenu = 0, OptionsMenu = 1,
+        MainMenu = 0, OptionsMenu = 1, InGame = 2,
     }
 
     public static class GameStateManager
@@ -49,6 +49,10 @@ namespace GameProject_V3.Main
             else if(newState == GameState.OptionsMenu)
             {
                 currentScreen = optionScreen;
+            }
+            else if(newState == GameState.InGame)
+            {
+                currentScreen = new Screens.GameScreen();
             }
             GUIManager.SetCurrentScreen(currentScreen);
         }

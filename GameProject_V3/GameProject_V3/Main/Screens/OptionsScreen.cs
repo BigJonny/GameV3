@@ -20,24 +20,19 @@ namespace GameProject_V3.Main.Screens
         private Button applyButton;
         private Button backButton;
 
-        private RelativeLayoutPanel relativeLayout;
+        //TODO: Muss mehr oder weniger komplett überarbeitet werden.
 
         /// <summary>
         /// Erstellt einen <see cref="Screen"/> der die Spieloptionen anzeigen kann.
         /// </summary>
         public OptionsScreen()
         {
-            relativeLayout = new RelativeLayoutPanel(Width, Height);
-            relativeLayout.Location = new Point(0, 0);
-            relativeLayout.BackgroundImage = ContentLoader.LoadImage("MainScreenBackgroundImage.jpg");
-            this.AddControl(relativeLayout);
-
             resolutionLabel = new Label();
             resolutionLabel.Text = "Auflösung:";
             resolutionLabel.Location = new Point(150, 150);
             resolutionLabel.BackColor = Color.Transparent;
             resolutionLabel.Font.FontColor = Color.White;
-            relativeLayout.AddControl(resolutionLabel);
+            this.AddControl(resolutionLabel);
 
             resolutionControl = new ComboBox();
             resolutionControl.Location = new Point(resolutionLabel.Location.X + 160, 150);
@@ -52,7 +47,7 @@ namespace GameProject_V3.Main.Screens
             resolutionControl.AddItem("1920 x 1200");
             resolutionControl.Text = "800 x 600";
             resolutionControl.BackgroundImage = ContentLoader.LoadImage("buttonBackgroundImage.jpg");
-            relativeLayout.AddControl(resolutionControl);
+            this.AddControl(resolutionControl);
 
             borderlessControl = new CheckBox();
             borderlessControl.Text = "Fensert anzeigen";
@@ -60,21 +55,21 @@ namespace GameProject_V3.Main.Screens
             borderlessControl.BackColor = Color.Transparent;
             borderlessControl.Font.FontColor = Color.White;
             borderlessControl.Width = 300;
-            relativeLayout.AddControl(borderlessControl);
+            this.AddControl(borderlessControl);
 
             fullScreenControl = new CheckBox();
             fullScreenControl.Text = "FullScreen";
             fullScreenControl.Font.FontColor = Color.White;
             fullScreenControl.Location = new Point(resolutionControl.Location.X, 270);
             fullScreenControl.BackColor = Color.Transparent;
-            relativeLayout.AddControl(fullScreenControl);
+            this.AddControl(fullScreenControl);
 
             applyButton = new Button("Bestätigen");
             applyButton.Font.FontColor = Color.White;
             applyButton.Location = new Point(150, 450);
             applyButton.Click += new MouseEventHandler(ApplyButtonClick);
             applyButton.BackgroundImage = ContentLoader.LoadImage("buttonBackgroundImage.jpg");
-            relativeLayout.AddControl(applyButton);
+            this.AddControl(applyButton);
 
             backButton = new Button();
             backButton.Text = "Abbrechen";
@@ -82,16 +77,7 @@ namespace GameProject_V3.Main.Screens
             backButton.Location = new Point(380, 450);
             backButton.Click += new MouseEventHandler(BackButtonClick);
             backButton.BackgroundImage = ContentLoader.LoadImage("buttonBackgroundImage.jpg");
-            relativeLayout.AddControl(backButton);
-        }
-
-        protected override void OnSizeChanged(object sender, EventArgs args)
-        {
-            base.OnSizeChanged(sender, args);
-            if(relativeLayout != null)
-            {
-                relativeLayout.Size = new Point(Width, Height);
-            }
+            this.AddControl(backButton);
         }
 
 

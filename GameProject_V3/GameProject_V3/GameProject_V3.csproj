@@ -85,8 +85,15 @@
     <Compile Include="KeyBoardInput.cs" />
     <Compile Include="KeyboardState.cs" />
     <Compile Include="Main\GameStateManager.cs" />
+    <Compile Include="Main\Player.cs" />
+    <Compile Include="Main\Screens\BattleGround.cs" />
+    <Compile Include="Main\Screens\BuildingsField.cs" />
+    <Compile Include="Main\Screens\CardField.cs" />
+    <Compile Include="Main\Screens\GameField.cs" />
+    <Compile Include="Main\Screens\GameScreen.cs" />
     <Compile Include="Main\Screens\MainScreen.cs" />
     <Compile Include="Main\Screens\OptionsScreen.cs" />
+    <Compile Include="Main\Screens\StatsField.cs" />
     <Compile Include="MouseInput.cs" />
     <Compile Include="MouseState.cs" />
     <Compile Include="Program.cs" />
@@ -156,7 +163,12 @@
     <Content Include="Content\GameContent\NotCheckedImage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\GameContent\oldPaperTex.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Main\Cards\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

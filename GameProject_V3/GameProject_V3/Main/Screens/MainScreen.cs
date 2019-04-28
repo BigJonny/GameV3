@@ -28,20 +28,21 @@ namespace GameProject_V3.Main.Screens
             startButton = new Button();
             startButton.Text = "Start";
             startButton.BackgroundImage = buttonBackground;
-            startButton.Location = new Point(500, 200);
+            startButton.Location = new Point(724, 368);
             startButton.Font.FontColor = Color.White;
+            startButton.Click += new MouseEventHandler(OnStartButtonClick);
             this.AddControl(startButton);
 
             optionsButton = new Button();
             optionsButton.Text = "Optionen";
-            optionsButton.Location = new Point(500, 270);
+            optionsButton.Location = new Point(724, 270 + 168);
             optionsButton.BackgroundImage = buttonBackground;
             optionsButton.Font.FontColor = Color.White;
             optionsButton.Click += new MouseEventHandler(OptionsButtonClick);
 
             leaveButton = new Button();
             leaveButton.Text = "Beenden";
-            leaveButton.Location = new Point(500, 340);
+            leaveButton.Location = new Point(724, 340 + 168);
             leaveButton.BackgroundImage = buttonBackground;
             leaveButton.Font.FontColor = Color.White;
             leaveButton.Click += new MouseEventHandler(OnLeaveButtonClick);
@@ -77,5 +78,10 @@ namespace GameProject_V3.Main.Screens
             GUIManager.CurrentGame.CloseGame();
         }
 
+
+        private void OnStartButtonClick(object sender, MouseEventArgs args) 
+        {
+            GameStateManager.ChangeState(GameState.InGame);
+        }
     }
 }

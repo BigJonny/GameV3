@@ -30,8 +30,6 @@ namespace GameProject_V3.Controls
         /// </summary>
         public FlowLayoutPanel()
         {
-            Width = 200;
-            Height = 200;
             direciont = FlowDireciont.RightLeft;
             fullSize = false;
         }

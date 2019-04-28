@@ -76,6 +76,7 @@ namespace GameProject_V3.Controls
 
         protected override void DrawControl(Graphics graphics, GameTime gameTime)
         {
+            base.DrawControl(graphics, gameTime);
             if (Parrent != null)
             {
                 if (Scroll == ScrollType.Vertical)

@@ -34,8 +34,8 @@ namespace GameProject_V3
             screen.Dock = DockStyle.Fill;
             gameTime = new GameTime();
             form.Controls.Add(screen);
-            drawArea = new Bitmap(800, 600);
-            resultion = new Point(800, 600);
+            drawArea = new Bitmap(1280,  800);
+            resultion = new Point(1280, 800);
             graphics = Graphics.FromImage(drawArea);
             GUIManager.Initialize(this);
             ContentLoader.Initialize();
@@ -174,6 +174,7 @@ namespace GameProject_V3
             resultion = p;
             drawArea = new Bitmap(resultion.X, resultion.Y);
             graphics = Graphics.FromImage(drawArea);
+            GC.Collect();
         }
 
         /// <summary>
@@ -193,6 +194,7 @@ namespace GameProject_V3
                 form.WindowState = FormWindowState.Normal;
                 screen.Focus();
             }
+            GC.Collect();
         }
 
         /// <summary>

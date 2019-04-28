@@ -24,7 +24,8 @@ namespace GameProject_V3.Controls
         {
             oldWidth = width;
             oldHeight = height;
-            size = new Point(width, height);
+            Width = width;
+            Height = height;
         }
 
         #region Overrides:
@@ -44,12 +45,12 @@ namespace GameProject_V3.Controls
             {
                 foreach (GameControl control in controls)
                 {
-                    Point p = new Point(0, 0);
-                    p.X = control.Location.X / oldHeight;
-                    p.Y = control.Location.Y / oldHeight;
-                    p.X = p.X * Width;
-                    p.Y = p.Y * Height;
-                    control.Location = p;
+                    PointF p = new PointF(0.0f, 0.0f);
+                    p.X = (float)control.Location.X / (float)oldWidth;
+                    p.Y = (float)control.Location.Y / (float)oldHeight;
+                    p.X = (float)Width * p.X;
+                    p.Y = (float)Height * p.Y;
+                    control.Location = new Point((int)p.X, (int)p.Y);
                     oldWidth = Width;
                     oldHeight = Height;
                 }

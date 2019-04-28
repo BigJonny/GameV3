@@ -49,7 +49,7 @@ namespace GameProject_V3.Controls
             {
                 this.graphics.DrawRectangle(Pens.Black, new Rectangle(0, 0, Width - 1, Height - 1));
             }
-            Font.DrawString(text, g, new Rectangle(Height + 10, 0,
+            Font.DrawString(text, this.graphics, new Rectangle(Height + 10, 0,
                 Width - (Height + 10), Height), TextAlignment.Left);
             graphics.DrawImage(DrawArea, Bounds);
         }
