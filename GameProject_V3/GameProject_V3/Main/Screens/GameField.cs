@@ -11,7 +11,7 @@ namespace GameProject_V3.Main.Screens
     /// <summary>
     /// Stellt ein Feld auf dem Spielbrett dar.
     /// </summary>
-    public abstract class GameField : PictureBox
+    public abstract class GameField : Container
     {
 
         /// <summary>

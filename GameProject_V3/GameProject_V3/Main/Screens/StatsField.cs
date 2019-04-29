@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameProject_V3.Controls;
 
 namespace GameProject_V3.Main.Screens
 {
@@ -15,6 +16,7 @@ namespace GameProject_V3.Main.Screens
     {
 
         private Player currentPlayer;
+        private Button turnStatsButton;
 
         /// <summary>
         /// Erstellt ein neues Feld, welches dem Nutzer die Stats eines Spielers anzeigt.
@@ -25,6 +27,14 @@ namespace GameProject_V3.Main.Screens
             DrawBorder = true;
             BackgroundImage = ContentLoader.LoadImage("buttonBackgroundIMage.jpg");
             this.Font.FontColor = Color.White;
+            
+            turnStatsButton = new Button();
+            turnStatsButton.Size = new Point(100, Height - 20);
+            turnStatsButton.Text = "Mein Zug";
+            turnStatsButton.BackgroundImage = null;
+            turnStatsButton.Font.FontColor = Color.White;
+            turnStatsButton.BackColor = Color.Transparent;
+            this.AddControl(turnStatsButton);
         }
 
 
@@ -67,7 +77,10 @@ namespace GameProject_V3.Main.Screens
             Font.DrawString("Ablagestapel: 5", this.graphics, new Point(x + 430, 10));
             int x2 = Font.MeasureString("Ablagestapel: 5").X;
             Font.DrawString("Deck: 10", this.graphics, new Point(x2 + 460 + x, 10));
+            int x3 = Font.MeasureString("Deck: 10").X;
 
+            turnStatsButton.Location = new Point(x2 + x +  + x3  + 490, 10);
+            turnStatsButton.Size = new Point(100, Height - 20);
             graphics.DrawImage(DrawArea, Bounds);
         }
 
